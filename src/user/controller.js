@@ -27,12 +27,28 @@ const addUser = (req, res) => {
         }
         pool.query(queries.addUser, [nickname, bio, password, fullname], (error, results) => {
             if (error) throw error;
-            res.status(201).send("User created succesfully.");
+            res.status(201).send("User created successfully.");
             console.log('user created');
         })
-    })
-}
+    });
+};
 
+const deleteUser = (req, res) => {
+    const id = parseInt(req.params.id);
+
+    pool.query(queries.getUserById, [id], (error, results) => {
+        const noUserFound = !results.rows.length;
+        if (noUserFound) {
+            res.send("User does not exist, could not delete.");
+        }
+
+        pool.query(queries.deleteUser, [id], (error, results) => {
+            if (error) throw error;
+            res.status(200).send("User deleted successfully.");
+        });
+       
+    });
+}
 module.exports = {
-    getUsers, getUserById, addUser
+    getUsers, getUserById, addUser, deleteUser,
 };

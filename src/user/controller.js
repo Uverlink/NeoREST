@@ -19,9 +19,15 @@ const getUserById = (req, res) => {
 }
 
 const addUser = (req, res) => {
-    const { nickname, bio, password, fullname } = req.body
+    const { nickname, bio, password, fullname } = req.body;
+
+    pool.query(queries.checkNicknameExists, [nickname], (error, results) => {
+        if (results.rows.length) {
+            res.send("Nickname already taken.");
+        }
+    })
 }
 
 module.exports = {
-    getUsers, getUserById, add
+    getUsers, getUserById, addUser
 };

@@ -25,6 +25,11 @@ const addUser = (req, res) => {
         if (results.rows.length) {
             res.send("Nickname already taken.");
         }
+        pool.query(queries.addUser, [nickname, bio, password, fullname], (error, results) => {
+            if (error) throw error;
+            res.status(201).send("User created succesfully.");
+            console.log('user created');
+        })
     })
 }
 

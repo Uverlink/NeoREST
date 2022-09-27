@@ -1,4 +1,5 @@
-const express = require('express')
+import cors from 'cors'
+import express from 'express'
 const userRoutes = require('./src/user/routes');
 const app = express();
 const port = 3000;
